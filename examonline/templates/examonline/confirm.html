@@ -1,0 +1,17 @@
+{% extends 'examonline/exambase.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="container">
+		<br>
+		<div class="card text-center bg-light">
+				<div class="card-body">
+		<h3>
+		Are you sure you want to submit answers and end exam ? 
+		</h3>
+		<button type='button' class="btn btn-danger" > <a href="{% url 'exam-guidelines' pk=pk %}"style="color:White">No,Take me Back</a></button>
+		<button type='button' class="btn btn-success" > <a href="{% url 'exam-final-submit' pk=pk %}"style="color:White">Yes,Submit</a></button>
+	</div>
+</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-8">
+				<br>
+				<div class="card text-center border-info mb-3 ">
+					<div class="card-header text-info">
+						<h5>Hello {{user.first_name}}</h5>
+					</div>
+					<div class="card-body text-info">
+					
+						<p class="card-text">Username : {{user.username}} </p>
+						<p class="card-text">Name : {{user.first_name}} {{user.last_name}} </p>
+						<p class="card-text">email : {{user.email}}</p>
+					</div>
+					<div class="card-footer text-muted">
+						<a href="{% url 'password-change' %}"><button class="btn btn-outline-info">Change Password</button></a>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endblock %}}

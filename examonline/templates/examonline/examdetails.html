@@ -1,0 +1,30 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+	{% load crispy_forms_tags %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-9">
+				<h4>Add Question for {{exam.exam_name}}</h4>
+				<form method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{form|crispy}}
+					<button class="btn btn-success" type="submit"> Create Question
+					</button>
+				</form>
+			
+			</div>
+			<div class="col-1">
+			</div>
+
+			<div class="col-2">
+				<br>
+		
+				<div class="d-flex justify-content-center">
+					<button class="btn btn-primary"><a href="{% url 'exam-pag-preview' pk=exam.pk %}"style="color:White">View All Questions</a> </button>
+				</div>
+			
+			
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+{% block content %}
+
+	<div class="container  ">
+		<div class="row justify-content-center">
+			<h2>List of Exams</h2>
+		</div>
+	
+		<div class="row justify-content-center">
+
+			<div class="col">
+
+ 				<table class="table table-bordered  text-center table-hover ">
+ 				<thead>
+
+ 					<tr>
+ 						<th>Exam</th>
+ 						<th>Max Marks</th>
+ 						<th>Pass Mark</th>
+ 						<th>Score</th>
+ 						<th>Rank</th>
+ 						<th>Duration (Min:Sec)</th>
+ 						<th>Status</th>
+ 					</tr>
+ 				</thead>
+				<tbody>
+				
+					{% for pen in pending %}
+				<tr>
+					<td>{{pen.test}}</td>
+					<td>{{pen.test.exam_marks}}</td>
+					<td>{{pen.test.exam_passmark}} </td>
+					<td>--</td>
+					<td>--</td>
+					<td>
+			{{pen.timeleft|intdiv:60}}:{{pen.timeleft|mod:60}}
+					</td>	
+					<td><button type='button' class="btn btn-info" > <a href="{% url 'exam-guidelines' pk=pen.test.pk %}"style="color:White" >Resume </a></button></td>
+				</tr>
+				{% endfor %}
+				{% for e in unattempted %}
+				<tr>
+					<td>{{e.exam_name}}</td>
+					<td>{{e.exam_marks}}</td>
+					<td>{{e.exam_passmark}}</td>
+					<td>--</td>
+					<td>--</td>
+					<td>{{e.exam_time}}:0</td>
+					<td><button type='button' class="btn btn-primary" > <a href="{% url 'exam-guidelines' pk=e.pk %} "style="color:White" >Attempt</a></button></td>
+				</tr>
+				{% endfor %}
+			{% for c in completed %}
+				<tr>
+					<td>{{c.test}}</td>
+					<td>{{c.test.exam_marks}}</td>
+					<td>{{c.test.exam_passmark}}</td>
+					<td>{{c.exam_marks}}</td>
+					<td>
+					{% if c.rank %}
+					 {% if c.rank > 0  %}
+						{{c.rank}}/{{c.test.examstatus_set.count}}
+						{% else %}
+						Not Qualified	
+						{% endif %}
+					{% else %}
+						Rank will be Updated Soon
+					{% endif %}
+					</td>
+					<td>--</td>
+					<td><button type='button' class="btn btn-success" > <a href="{% url 'solution-paginated' pk=c.test.pk %}"style="color:White">AnswerKey</a></button></td>
+				</tr>
+				{% endfor %}	
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+			{% endblock %}

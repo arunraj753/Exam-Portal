@@ -1,0 +1,27 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-7">
+				<div class="d-flex justify-content-between">
+					<div><h2 class="text-danger">ERROR</h2>
+					</div>
+					<div><button type='button' class="btn btn-info" > <a href="{% url 'option-create' pk=ques.pk %}"style="color:White">Go to Options Page</a></button>
+					</div>
+				</div>
+
+<h4>True Option not set for the below Question</h4>
+{% if ques.question %}                             
+                {{ques.question}}
+                <br>
+                {% endif %}
+              {% if ques.question_image %}                             
+                <img src="{{ques.question_image.url}}" class="img-rounded">
+                <br>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}}

@@ -1,0 +1,38 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name of Student</th>
+                            <th>Marks</th>
+                            <th>Rank</th>
+                            <th>View Answer Sheet</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in students %}
+           
+                        <tr>
+                            <td> {{ s.stud_name }}     </td>
+                            <td> {{ s.exam_marks }}     </td>
+                             
+                            {% if s.rank > 0 %}
+                               <td> {{ s.rank }}</td>
+                            {% else %}
+                                <td style="color:red">Not Qualified</td>
+                            {% endif %}    
+                            <td> <button type='button' class="btn btn-info" > <a href="{% url 'stud-solution' pk=s.test.pk spk=s.stud_name.pk %}"style="color:White">View Answers</a></button>
+                        </tr>
+                        {% endfor %}
+                        
+
+                    </tbody>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+{% block content %}
+	<div class="container-fluid  ">
+			<br>
+		<div class="row justify-content-center">
+
+			<div class="card border-dark bg-light">
+				<div class="card-header text-center">
+					<h5 class="card-title">Exam : {{status.test}}</h5>
+					<h5>Time Left :{{status.timeleft|intdiv:60}}:{{status.timeleft|mod:60}}</h5>
+	
+				</div>
+
+					<ul>	
+					<h6 class="text-danger"><li>Dont use browser  builtin buttons to navigate between questions.</li></h6>
+				<h6 class="text-dark"><li>Only use
+				<button type='button' class="btn-xs btn-info" ><span class="fas fa-angle-left"></span>  Prev Ques</button>
+				<button type='button' class="btn-xs btn-info" >Next Ques  <span class="fas fa-angle-right"></span></button> Buttons or Question Palette to navigate</li></h6>
+				
+					<h6><li>In Question Palette</h6>
+					<ul>
+						<li>
+					<button class=" btn-xs btn-outline-dark" >1</button>  Current Question<p></p>
+						</li> 
+						<li>
+							<button class=" btn-xs	 btn-success" >1</button>   Answered    <p></p>
+						</li>
+						<li>
+					<button class=" btn-xs btn-outline-success" >1</button>  Current Question and Answered<p></p>
+						</li>
+						<li>
+					<button class=" btn" >1</button>  Not Answered
+						</li>
+					</ul>
+				</li>
+				<li><h6>Exam will be submitted automatically when time up</h6></li>
+				<li>Use <button class=" btn-xs btn-primary" >Final Submit</button> to end exam when finished</li>
+			</ul>
+	
+			<div class="card-footer text-center">
+					<a href="{% url 'exam-attend' pk=exam.pk %} " target="_blank"><button class="btn btn-success" >Begin Exam</button> </a>
+			
+				
+			</div>
+		</div>
+	</div>
+{% endblock %}

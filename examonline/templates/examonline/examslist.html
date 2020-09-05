@@ -1,0 +1,74 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+hr.thickline {
+  border: 2px solid black;
+  border-radius: 5px;
+}
+</style>
+ 		 
+	<div class="container">
+		<div class="d-flex flex-row-reverse bd-highlight">
+
+  			<div class="p-2 bd-highlight"> 
+
+  				<a href="{% url 'exam-create' %}"> <button class="btn btn-primary"><span class="fas fa-plus-circle"></span>
+  			
+NewExam</button> </a> </div>
+			</div>
+		<div class="row justify-content-center">
+			<h2 >Exams - List</h2>
+		
+		</div>
+		<div class="row justify-content-center">
+			<div class="col">
+				
+				<table class="table table-bordered table-hover content-center">
+					<thead>
+						<tr class="text-center">
+							<th>Name of Exam</th>
+							<th>Duration</th>
+							<th>Marks</th>
+							<th>Pass Mark</th>
+							<th>Preview/Edit</th>
+							<th>Add Questions</th>
+							<th>Students Attempted</th>
+							<th>Exam Status</th>
+							<th>Finish</th>
+
+						</tr>
+					</thead>
+					{% for exams in postedexams %}
+						<tr class="text-center">
+							<td class="font-weight-normal"><a href="{% url 'exam-edit' pk=exams.pk %} "style="color:Black">{{ exams.exam_name}}</a> </td>
+							<td>{{exams.exam_time}} Minutes</td>
+							<td>{{exams.exam_marks}}</td>
+								<td> <a href="{% url 'exam-pass' pk=exams.pk %}"style="color:Black"> {{exams.exam_passmark}} </a></td>
+							
+							<td><a href="{% url 'exam-pag-preview' pk=exams.pk %}"><button class="btn btn-outline-info">Preview</button></a></td>
+							<td>--</td>
+							<td> <a href="{% url 'exam-rank' pk=exams.pk %}"> <button class="btn btn-outline-success" >View Details</button> </a></td>
+							<td class="font-weight-bold" style="color:green">Posted </td>
+							<td>--</td>
+						</tr>	
+					{% endfor %}
+					{% for exams in exams %}
+						<tr class="text-center">
+							<td class="font-weight-normal"><a href="{% url 'exam-edit' pk=exams.pk %} "style="color:Black">{{ exams.exam_name}}</a> </td>
+							<td>{{exams.exam_time}} Minutes</td>
+							<td>{{exams.exam_marks}}</td>
+						<td> <a href="{% url 'exam-pass' pk=exams.pk %}"style="color:Black"> {{exams.exam_passmark}} </a></td>
+							<td><a href="{% url 'exam-update' pk=exams.pk %}"><button class="btn btn-outline-info">Edit</button></a></td>
+							<td><a href="{% url 'exam-details' pk=exams.pk %}"><button class="btn btn-outline-dark"><span class="fas fa-plus-circle"></span> Add Questions</button></a></td>
+							<td>--</td>
+							<td class="font-weight-bold" style="color:red">Pending </td>
+							<td><a href="{% url 'exam-post' pk=exams.pk %}"><button class="btn btn-outline-success">Submit</button></a></td>
+						</tr>
+					{% endfor %}
+				</table>	
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

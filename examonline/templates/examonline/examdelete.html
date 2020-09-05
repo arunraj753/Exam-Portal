@@ -1,0 +1,20 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+	{% load crispy_forms_tags %}
+	<br>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-7">
+				<h3>Are you sure you want to delete the exam {{exam.exam_name}}</h3>
+			<br>
+			<form method="post">
+				{% csrf_token %}
+			<button type="submit" class="btn btn-danger">Yes,Delete </button>
+			<a href="{% url 'exam-edit' pk=exam.pk %}"><button type="button" class="btn btn-success">No,Take Me Back</button></a>	
+			</form>
+			
+			
+		</div>
+	</div></div>
+	
+{% endblock %}}

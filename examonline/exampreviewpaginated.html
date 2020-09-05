@@ -1,0 +1,80 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+    {% load crispy_forms_tags %}
+    <style >
+    hr.new5 {
+    border: 1px solid black;
+    border-radius: 2px;
+    }</style>
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="card">
+                    {% for ques in page_obj %}
+                        <div class="d-flex justify-content-around">
+                            <div class="p-2 font-weight-bold">Question No:  {{page_obj.number}}</div>
+                            <div class="p-2  font-weight-bold" style="color:green">Marks : {{ques.question_mark}}</div>
+                            <div class="p-2  font-weight-bold" style="color:red">Negative Marks : {{ques.question_negative}}</div>
+                        </div>
+                        {% if ques.question_image %}
+                            <img src="{{ques.question_image.url}}" class="img-rounded">
+                        {% endif %}
+                        {% if ques.question %}
+                            <h5>{{ques.question}}</h5>
+                            <br>
+                        {% endif %}
+                         <ul>
+                        {% for opt in ques.option_set.all %}
+                                   <li>
+                                        
+                                            {% if opt.option_status is True  %}
+                                            <h5 style="color:black">{{ opt }} <span style="color:green" class="fas fa-check"></span></h5>
+                                        {% else %}
+                                            <h5 style="color:black">{{ opt }} </h5>
+                                        {% endif %}
+                                </li>
+                         {% endfor %}
+                          </ul>
+                            <hr class="new5">
+                            
+                                            <div>
+                            <div class="d-flex justify-content-around">
+                                {% if page_obj.has_previous %}
+                                    <button type='button' class="btn btn-info" > <a href="?page={{ page_obj.previous_page_number }}"style="color:White">Previous</a></button>
+                                {% endif %}
+                                {% if page_obj.has_next %}
+                                    <button type='button' class="btn btn-info" > <a href="?page={{ page_obj.next_page_number }}"style="color:White">Next</a></button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="col-sm-3">
+                    <br>
+                    <div>
+                        <br>
+                        <div class="card">
+                            <div class="card-header bg-primary text-white text-center ">
+                                Question Palette
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex flex-wrap">
+                                    {% for i in q %}
+                                    {% if i == page_obj.number %}
+                                        <a href="?page={{i}}" class=" btn btn-outline-dark ">{{i}}</a>
+                                    
+                                    {% else %}
+                                    <a href="?page={{i}}" class=" btn btn-light rounded ">{{i}}</a>
+                                    {% endif %}
+                                   
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

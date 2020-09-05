@@ -1,0 +1,157 @@
+{% extends 'examonline/exambase.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="card">
+               {% for question in page_obj %}
+
+                <div class="d-flex justify-content-around">
+                    <div class="p-2 font-weight-bold">Question No:  {{page_obj.number}}</div>
+                <div class="p-2  font-weight-bold" style="color:green">Marks : {{question.question_mark}}</div>
+                <div class="p-2  font-weight-bold" style="color:red">Negative Marks : {{question.question_negative}}</div>
+                </div>
+  
+                {% if question.question_image %}                             
+                <img src="{{question.question_image.url}}" class="img-rounded">
+                {% endif %}
+                {% if question.question %}                             
+               <h4>  {{question.question}}</h4>
+                <br>
+                {% endif %}
+                <div>                
+                <form method="POST">
+                    {% csrf_token %}
+                       <h6> {{form}}</h6>
+                       <hr>
+                       <div class="d-flex justify-content-around">
+                        {% if page_obj.has_previous %}                     
+                        <button type='button' id="prev" class="btn btn-info" ><span class="fas fa-angle-left"></span>  Prev Ques</button>
+                        <script> 
+                        $('#prev').click(function(){
+                        location.replace("?page={{ page_obj.previous_page_number }}")});
+                        </script>
+                        {% endif %} 
+                        {% if page_obj.has_next %}
+                    <button type='button' id="next" class="btn btn-info" >Next Ques  <span class="fas fa-angle-right"></span></button>
+                    <script>
+                    $('#next').click(function(){
+                    location.replace("?page={{ page_obj.next_page_number }}") });
+                    </script>     
+                    {% endif %}
+                        <button type='button' class="btn btn-danger" > <a href="?del={{page_obj.number}} "style="color:White">Clear Response</a></button>
+                        
+                        {% if page_obj.has_next %}
+                    <button id="sub" class="btn btn-success">Submit and Next </button>
+                    {% else %}
+                    <button class="btn btn-success">Submit   </button>
+                    {% endif %}
+                        </form>
+                        
+                </div>
+                 
+            </div>
+        </div>
+        <br><br>
+                        
+        </div>
+        <div class="col-sm-3">
+<br>        
+    
+            <div class="sticky-top">
+              <div class="card">
+                <div class="card-header  text-black text-center ">
+                <p class="text-uppercase">{{user.first_name}}</p>
+                </div>
+               
+                <div class="card-header  text-black text-center ">
+                        <div class="d-flex justify-content-around">
+                     <h3 >Time Left : </h3>             
+                     <h3 id="timer" >Timer </h3>
+                        </div>
+                     </div>
+            
+              </div>
+               
+<br>
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center ">
+                     Question Palette
+                </div>
+                <div class="card-body">   
+                    <div class="d-flex flex-wrap">
+                    {% for i in q %}
+                    {% if i in AttemptedQuestions %}
+                        {% if i == page_obj.number %}
+                        <a href="?page={{i}}" class=" btn btn-outline-success ">{{i}}</a>
+                        {% else %}
+                        <a href="?page={{i}}" class=" btn btn-success" >{{i}}</a>
+                        {% endif %}
+                    {% else %}
+                         {% if i == page_obj.number %}
+                         <a href="?page={{i}}" class=" btn btn-outline-dark ">{{i}}</a>
+                        {% else %}
+                        <a href="?page={{i}}" class=" btn btn-light rounded "  >{{i}}</a> 
+                        {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    </div> 
+                </div>
+                
+            </div>
+            <br>
+            <div class="d-flex justify-content-around">
+                <button type='button' class="btn btn-primary" > <a href="{% url 'exam-submit-confirmation' question.question_exam.pk %}"style="color:White"> Final Submit</a></button>
+                </div>
+        </div>
+        </span>
+    </div>
+</div>
+    <script >
+    var counter =0;
+    var tiktik;
+    servertime= {{servertime}};
+    console.log("BrowserTimeInitial",sessionStorage.getItem("timeleft"));
+
+    function Convertion(s)
+        {
+        var min=Math.floor(s/60);
+        var sec=s%60 ;
+        return min+':'+sec;
+        }
+    function mytimer()
+        {
+            if(sessionStorage.getItem("timeleft")  )
+                if(sessionStorage.getItem("timeleft") < servertime)
+                    { browsertime=sessionStorage.getItem("timeleft");}
+                else
+                    {  browsertime=servertime; }
+            else
+                    {  browsertime=servertime; }
+            if(browsertime > 0)
+            {   
+                browsertime--;
+                sessionStorage.setItem("timeleft", browsertime);
+                if(browsertime%2==0)
+                {
+                    examnum={{question.question_exam.pk}};
+                    $.get('/exam/'+ examnum.toString()+'/attend',{time:browsertime}); 
+                }
+            }
+            else
+            {
+                 location.replace("{% url 'exam-final-submit' pk=question.question_exam.pk %}");
+                $.get('/exam/'+ examnum.toString()+'/attend',0);
+            }
+            $('#timer').html(Convertion(browsertime));
+        }  
+    function timerstart()
+    {
+    tiktik=setInterval(mytimer,1000);
+    }
+    document.onload(timerstart())
+    </script>
+    {% endfor %}
+{% endblock %}

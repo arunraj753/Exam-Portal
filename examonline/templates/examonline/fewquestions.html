@@ -1,0 +1,18 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+  {% load crispy_forms_tags %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-7">
+        <div class="d-flex justify-content-between">
+          <div><h2 class="text-danger">ERROR</h2>
+
+<h4>Minimum 5 Questions are needed to conduct an exam</h4>
+<h4>No.of Questions now : {{qcount}}</h4>
+         <div><button type='button' class="btn btn-info" > <a href="{% url 'exam-details' pk=exampk %}"style="color:White">Add Questions</a></button>
+          </div> 
+    </div>
+  </div>
+</div>
+  
+{% endblock %}

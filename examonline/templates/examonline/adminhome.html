@@ -1,0 +1,25 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+  {% load crispy_forms_tags %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <table class="table table-bordered  text-center table-hover ">
+        <thead>
+          <tr>
+            <th>Exam Name</th>
+            <th>Exam Creator</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in exams %}
+        <tr>
+          <td>{{e.exam_name}}</td>
+          <td>{{e.exam_creator}}</td>    
+        </tr>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+  
+{% endblock %}

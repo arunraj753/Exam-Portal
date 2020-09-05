@@ -1,0 +1,24 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+	{% load crispy_forms_tags %}
+	<div class="container fluid">
+		<div class="row ">
+			<div class="col-9">
+				<h4>Edit Question for the Exam {{exam.exam_name}}</h4>
+				{% if ques.question_image %}                             
+                <img src="{{ques.question_image.url}}" class="img-rounded">
+                <br>
+                {% endif %}
+                <hr>
+				<form method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{form|crispy}}
+					
+					<button class="btn btn-success" type="submit"> Update Question
+					</button>
+				</form>
+				
+			</div>
+		</div>
+	</div>
+{% endblock %}

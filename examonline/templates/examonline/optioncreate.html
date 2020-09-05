@@ -1,0 +1,64 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+	<div class="container">
+		<div class="row justify-content-center">
+			
+			<div class="col-8">
+				<form method="post">
+					{% csrf_token %}
+					{{form|crispy}}
+					<div class="d-flex flex-row-reverse bd-highlight">
+				  		<button class="btn-success" type="submit"> <span class="fas fa-plus-circle"></span> Add Option</button>
+					</div>
+				</form>
+				<br>
+				<table class="table table-bordered table-hover   ">
+					<thead>
+						<tr>
+							<th>Option</th>
+							
+							<th>Correct Option</th>
+							<th>Delete Option</th>
+						</tr>
+					</thead>
+					{% for option in options %}
+						<tr>
+							<th>{{ option.option}}</th>
+							{% if option.option_status == True %}
+								<th><button class="btn btn-success"><a href="{% url 'option-true' pk=option.pk %}"style="color:Black">True Option</a> </button></th>
+							{% else %}
+								<th><button class="btn btn-danger"><a href="{% url 'option-true' pk=option.pk %}"style="color:Black">Set as True Option</a> </button></th>
+							{% endif %}
+							<th><a href="{% url 'option-delete' pk=option.pk %}"><button class="btn btn-info">Delete</button></a></th>
+							
+						</tr>
+					{% endfor %}
+				</table>
+		
+				<div class="card">
+					<div class="card-header  text-black text-center ">
+						{% if question.question %}
+							{{question.question}}
+							<br>
+						{% endif %}
+						{% if question.question_image %}
+							<img src="{{question.question_image.url}}" class="img-rounded">
+							<br>
+						{% endif %}
+					</div>
+				</div>	
+			</div>
+			<div class="col-2"></div>
+			<div class="col-2" >
+				<br>
+			<a href="{% url 'exam-details' pk=question.question_exam.pk %}"><button class="btn btn-primary">Add Another Question</button></a>
+			<br>
+			<br>
+		
+			<a href="{% url 'home-teacher' %}"><button class="btn btn-outline-dark">Done</button></a>
+		</div>
+
+	</div>
+{% endblock %}}
